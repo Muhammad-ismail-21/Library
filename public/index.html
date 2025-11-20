@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tech Snippet Library</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>Tech Snippet Library</h1>
+    <p>Save short code snippets, commands, and notes — fast.</p>
+  </header>
+  <main class="container">
+    <section class="form-card">
+      <h2 id="formTitle">Add Snippet</h2>
+      <form id="snippetForm">
+        <input type="hidden" name="snippetId" id="snippetId" value="" />
+        <label>Title<input name="title" required /></label>
+        <label>Language<input name="language" placeholder="JavaScript, Bash, SQL..." /></label>
+        <label>Tags (comma-separated)<input name="tags" /></label>
+        <label>Content<textarea name="content" rows="6" required></textarea></label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button type="submit" id="saveBtn">Save Snippet</button>
+          <button type="button" id="cancelEdit" style="display:none">Cancel</button>
+        </div>
+      </form>
+      <div id="status"></div>
+    </section>
+
+    <section class="list-card">
+      <h2>Recent Snippets</h2>
+      <div id="snippetList">Loading...</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Built for quick tech note keeping — deploy on Render + MongoDB Atlas</small>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

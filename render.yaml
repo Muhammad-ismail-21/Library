@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tech-snippet-library
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        fromDatabase:
+          name: MONGODB_URI
