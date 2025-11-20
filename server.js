@@ -80,6 +80,14 @@ app.delete('/api/snippets/:id', async (req, res) => {
   } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
+// add near top after routes are defined (just before fallback)
+app.get('/health', async (req, res) => {
+  const dbState = mongoose.connection.readyState; // 0 = disconnected, 1 = connected
+  res.json({ status: 'ok', dbState });
+});
+
+
+
 // SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

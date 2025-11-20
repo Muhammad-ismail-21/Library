@@ -1,12 +1,31 @@
 // public/app.js
+// public/app.js (improved error handling)
 async function fetchSnippets(){
-  const res = await fetch('/api/snippets');
-  const data = await res.json();
   const el = document.getElementById('snippetList');
-  if (!Array.isArray(data)) { el.innerText = 'Error loading'; return; }
-  if (data.length === 0) { el.innerText = 'No snippets yet.'; return; }
-  el.innerHTML = data.map(s => renderSnippet(s)).join('');
+  el.innerText = 'Loading...';
+  try {
+    const res = await fetch('/api/snippets');
+    if (!res.ok) {
+      // show status and text for debugging
+      const txt = await res.text();
+      el.innerText = `Error loading (${res.status}): ${txt.substring(0, 200)}`;
+      console.error('API error', res.status, txt);
+      return;
+    }
+    const data = await res.json();
+    if (!Array.isArray(data)) {
+      el.innerText = 'Error loading: unexpected response format';
+      console.error('Unexpected response', data);
+      return;
+    }
+    if (data.length === 0) { el.innerText = 'No snippets yet.'; return; }
+    el.innerHTML = data.map(s => renderSnippet(s)).join('');
+  } catch (err) {
+    el.innerText = 'Network or parsing error: ' + (err && err.message);
+    console.error('fetchSnippets error', err);
+  }
 }
+
 
 function renderSnippet(s){
   const tags = s.tags?.length ? s.tags.join(', ') : '';
